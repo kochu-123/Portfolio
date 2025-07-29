@@ -8,6 +8,28 @@
     <style>
 
     </style>
+    <script>
+        function showThankYou(event) {
+            event.preventDefault(); // prevent default form submission
+            const form = event.target;
+
+            // Submit the form manually
+            fetch("/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams(new FormData(form)).toString()
+                })
+                .then(() => {
+                    form.style.display = "none";
+                    document.getElementById("thank-you-message").style.display = "block";
+                })
+                .catch((error) => alert("Form submission failed: " + error));
+
+            return false;
+        }
+    </script>
 </head>
 
 <body>
@@ -86,6 +108,21 @@
             <p><strong>Location:</strong> Kanjirappally, Kottayam, Kerala</p>
             <p><strong>LinkedIn:</strong> <a href="#">linkedin.com/in/jeenajose</a></p>
             <p><strong>GitHub:</strong> <a href="github.com/kochu-123">github.com/kochu-123</a></p>
+        </section>
+
+        <section id="Contact">
+            <h2>Contact Me</h2>
+            <form name="Contact" method="POST" data-netlify="true" onsubmit="return showThankYou(event)">
+                <input type="hidden" name="form-name" value="Contact" />
+                <input type="text" name="name" placeholder="Your Name" required><br><br>
+                <input type="email" name="email" placeholder="Your Email" required><br><br>
+                <textarea name="message" placeholder="Your Message" rows="5" required></textarea><br><br>
+                <button type="submit">Send</button>
+            </form>
+
+            <div id="thank-you-message" style="display:none; margin-top: 20px; font-weight: bold; color: green;">
+                ✅ Thank you! Your message has been sent.
+            </div>
         </section>
     </div>
 
